@@ -1,5 +1,6 @@
-import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
+import React from 'react';
+
 import { HomeScreen } from '../screens';
 
 jest.mock('../data/dummy_stock_data.json', () => ({

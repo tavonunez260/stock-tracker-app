@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet, Button} from 'react-native';
 import { DetailsScreenProps } from "../types";
 
-export const DetailsScreen: React.FC<DetailsScreenProps> = ({ route }) => {
+export const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation, route }) => {
     const { stock } = route.params;
 
     return (
@@ -12,6 +12,11 @@ export const DetailsScreen: React.FC<DetailsScreenProps> = ({ route }) => {
             <Text>Name: {stock.name}</Text>
             <Text>Price: ${stock.price}</Text>
             <Text>Daily Change: {stock.daily_change}%</Text>
+            <Button
+                title="Back to Home"
+                onPress={() => navigation.goBack()}
+                testID="back-button"
+            />
         </View>
     );
 };
