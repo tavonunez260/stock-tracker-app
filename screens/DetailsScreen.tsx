@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Stock } from "../types";
+import { DetailsScreenProps } from "../types";
 
-export const DetailsScreen = ({ route }: { route: { params: { stock: Stock } } }) => {
+export const DetailsScreen: React.FC<DetailsScreenProps> = ({ route }) => {
     const { stock } = route.params;
 
     return (

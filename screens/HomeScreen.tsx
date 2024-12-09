@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 
 import stockData from '../data/dummy_stock_data.json';
-import { Stock } from "../types";
+import { HomeScreenProps, Stock } from "../types";
 
-export const HomeScreen = () => {
+export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     const [stocks, setStocks] = useState<Stock[]>([]);
 
     useEffect(() => {
@@ -17,18 +17,18 @@ export const HomeScreen = () => {
                 data={stocks}
                 keyExtractor={(item) => item.symbol}
                 renderItem={({ item }) => (
-                    <View style={styles.item}>
+                    <TouchableOpacity
+                        style={styles.item}
+                        onPress={() => navigation.navigate('Details', { stock: item })}
+                    >
                         <Text style={styles.name}>{item.name}</Text>
                         <Text style={styles.price}>${item.price.toFixed(2)}</Text>
                         <Text
-                            style={[
-                                styles.change,
-                                { color: item.daily_change > 0 ? 'green' : 'red' },
-                            ]}
+                            style={[styles.change, { color: item.daily_change > 0 ? 'green' : 'red' }]}
                         >
                             {item.daily_change.toFixed(2)}%
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                 )}
             />
         </View>
