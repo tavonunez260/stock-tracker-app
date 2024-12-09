@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
+
 import { DetailsScreenProps } from "../types";
 
 export const DetailsScreen: React.FC<DetailsScreenProps> = ({ navigation, route }) => {
