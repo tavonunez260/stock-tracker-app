@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
+import Animated, { LinearTransition } from 'react-native-reanimated';
 
 import stockData from '../data/dummy_stock_data.json';
 import { HomeScreenProps, Stock } from "../types";
@@ -86,18 +87,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 data={filteredStocks}
                 keyExtractor={(item) => item.symbol}
                 renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={styles.item}
-                        onPress={() => navigation.navigate('Details', { stock: item })}
-                    >
-                        <Text style={styles.name}>{item.name}</Text>
-                        <Text style={styles.price}>${item.price.toFixed(2)}</Text>
-                        <Text
-                            style={[styles.change, { color: item.daily_change > 0 ? 'green' : 'red' }]}
+                    <Animated.View layout={LinearTransition.springify()} style={styles.item}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('Details', { stock: item })}
                         >
-                            {item.daily_change.toFixed(2)}%
-                        </Text>
-                    </TouchableOpacity>
+                            <Text style={styles.name}>{item.name}</Text>
+                            <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+                            <Text
+                                style={[styles.change, { color: item.daily_change > 0 ? 'green' : 'red' }]}
+                            >
+                                {item.daily_change.toFixed(2)}%
+                            </Text>
+                        </TouchableOpacity>
+                    </Animated.View>
                 )}
             />
         </View>
