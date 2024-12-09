@@ -12,6 +12,7 @@ import Animated, { LinearTransition } from 'react-native-reanimated';
 
 import stockData from '../data/dummy_stock_data.json';
 import { HomeScreenProps, Stock } from "../types";
+import { filterStocks, sortStocks } from "../utils";
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     const [stocks, setStocks] = useState<Stock[]>([]);
@@ -22,10 +23,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
     const handleFilter = (text: string) => {
         setFilter(text);
-        const filtered = stocks.filter((stock) =>
-            stock.name.toLowerCase().includes(text.toLowerCase()) ||
-            stock.symbol.toLowerCase().includes(text.toLowerCase())
-        );
+        const filtered = filterStocks(stocks, text);
         setFilteredStocks(filtered);
     };
 
@@ -33,12 +31,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         if (sortKey === key) {
             if (sortOrder === null) {
                 setSortOrder('asc');
-                const sorted = [...filteredStocks].sort((a, b) => a[key] - b[key]);
-                setFilteredStocks(sorted);
+                setFilteredStocks(sortStocks(filteredStocks, key, 'asc'));
             } else if (sortOrder === 'asc') {
                 setSortOrder('desc');
-                const sorted = [...filteredStocks].sort((a, b) => b[key] - a[key]);
-                setFilteredStocks(sorted);
+                setFilteredStocks(sortStocks(filteredStocks, key, 'desc'));
             } else {
                 setSortOrder(null);
                 setSortKey(null);
@@ -47,8 +43,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         } else {
             setSortKey(key);
             setSortOrder('asc');
-            const sorted = [...filteredStocks].sort((a, b) => a[key] - b[key]);
-            setFilteredStocks(sorted);
+            setFilteredStocks(sortStocks(filteredStocks, key, 'asc'));
         }
     };
 
